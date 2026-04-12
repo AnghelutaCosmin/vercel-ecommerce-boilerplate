@@ -1,4 +1,4 @@
-import { Logo } from "../../icons/LogoIcon";
+import { Logo } from "../icons/LogoIcon";
 import { NavLinks } from "./NavLinks";
 import { CartLink } from "./CartLink";
 import Link from "next/link";

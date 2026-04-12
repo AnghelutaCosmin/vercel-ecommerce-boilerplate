@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CartIcon } from "../../icons/CartIcon";
+import { CartIcon } from "../icons/CartIcon";
 
 export function CartLink() {
   return (

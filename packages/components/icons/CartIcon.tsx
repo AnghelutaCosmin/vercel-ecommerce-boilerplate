@@ -1,4 +1,4 @@
-import { SVGProps } from "@/app/types/svg";
+import { SVGProps } from "@/packages/types/svg";
 
 export function CartIcon({ size = 24, color }: SVGProps) {
   return (
