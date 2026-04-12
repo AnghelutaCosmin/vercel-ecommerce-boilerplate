@@ -1,4 +1,4 @@
-import { SVGProps } from "@/types/svg";
+import { SVGProps } from "@/types/svgTypes";
 
 export function Logo({ size = 22, color = "var(--foreground)" }: SVGProps) {
   return (

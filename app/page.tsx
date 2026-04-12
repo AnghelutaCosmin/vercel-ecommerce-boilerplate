@@ -9,8 +9,6 @@ export default function Home() {
         <div className="flex flex-col flex-1 items-center justify-center font-sans">
           {/* Hero Section - Static */}
           <Hero />
-          {/* Promotional Banner - Cached Product Data */}
-
           {/* Featured Products - Server-Side Rendered based on cached data */}
         </div>
       </div>
