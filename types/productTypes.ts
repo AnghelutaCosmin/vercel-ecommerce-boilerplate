@@ -29,3 +29,10 @@ export interface ProductListResponse {
     pagination: PaginationInfo;
   };
 }
+
+export interface StockInfo {
+  productId: string;
+  stock: number;
+  inStock: boolean;
+  lowStock: boolean;
+}

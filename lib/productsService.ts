@@ -2,6 +2,7 @@ import {
   Product,
   ProductListResponse,
   ProductQueryParams,
+  StockInfo,
 } from "@/types/productTypes";
 import { fetchWithAuth } from "./config";
 import { endpoints } from "./endpoints";
@@ -51,5 +52,37 @@ export async function getFeaturedProducts(
   } catch (error) {
     console.error("Error fetching featured products:", error);
     return [];
+  }
+}
+
+export async function getProductBySlug(slug: string): Promise<Product | null> {
+  "use cache";
+  cacheLife("products");
+
+  try {
+    const response = await fetchWithAuth(endpoints.productsBySlug(slug));
+    if (!response.success) {
+      return null;
+    }
+    return response.data as Product;
+  } catch (error) {
+    console.error(`Error fetching product with slug "${slug}":`, error);
+    return null;
+  }
+}
+
+export async function getStockInfo(slug: string): Promise<StockInfo | null> {
+  try {
+    const response = await fetchWithAuth(endpoints.productStockBySlug(slug));
+    if (!response.success) {
+      return null;
+    }
+    return response.data;
+  } catch (error) {
+    console.error(
+      `Error fetching stock info for product with slug "${slug}":`,
+      error,
+    );
+    return null;
   }
 }
