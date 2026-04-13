@@ -1,6 +1,6 @@
 export function Hero() {
   return (
-    <div className="text-left max-w-2xl">
+    <div className="text-left max-w-2xl py-24">
       <h1 className="text-5xl font-bold mb-4">
         The Next E-commerce Boilerplate
       </h1>
