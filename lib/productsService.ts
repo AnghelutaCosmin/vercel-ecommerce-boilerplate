@@ -4,7 +4,7 @@ import {
   ProductQueryParams,
   StockInfo,
 } from "@/types/productTypes";
-import { fetchWithAuth } from "./config";
+import { fetchWithAuth } from "./fetch";
 import { endpoints } from "./endpoints";
 import { cacheLife } from "next/cache";
 
