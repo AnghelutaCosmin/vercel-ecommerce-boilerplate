@@ -1,8 +1,17 @@
 import { PurchaseOptions } from "@/components/pdp/PurchaseOptions";
-import { getProductBySlug } from "@/lib/productsService";
+import { getFeaturedProducts, getProductBySlug } from "@/lib/productsService";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+
+export async function generateStaticParams() {
+  /* This is only useful if the featured products don't change
+  often since these static pages are generated at build time */
+  const products = await getFeaturedProducts();
+  return products.map((product) => ({
+    slug: product.slug,
+  }));
+}
 
 export default async function ProductPage({
   params,

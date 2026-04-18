@@ -31,15 +31,19 @@ export async function getProducts({
   if (search) {
     queryParams.append("search", search);
   }
-  const response: ProductListResponse = await fetchWithAuth(
-    endpoints.products + "?" + queryParams.toString(),
-  );
+  try {
+    const response: ProductListResponse = await fetchWithAuth(
+      endpoints.products + "?" + queryParams.toString(),
+    );
+    if (!response.success) {
+      throw new Error("Failed to fetch products");
+    }
 
-  if (!response.success) {
-    throw new Error("Failed to fetch products");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return [];
   }
-
-  return response.data;
 }
 
 export async function getFeaturedProducts(
