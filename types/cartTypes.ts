@@ -1,8 +1,19 @@
+import { Product } from "./productTypes";
+
 export interface CartItem {
   productId: string;
-  slug: string;
-  name: string;
-  price: number;
   quantity: number;
-  image: string;
+  addedAt: string;
+  product: Product;
+  lineTotal: number;
+}
+
+export interface Cart {
+  token: string;
+  items: CartItem[];
+  totalItems: number;
+  subtotal: number;
+  currency: string;
+  createdAt: string;
+  updatedAt: string;
 }

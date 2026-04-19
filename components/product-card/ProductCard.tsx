@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Product } from "@/types/productTypes";
 import Link from "next/link";
+import { getFormattedPrice } from "@/utils/priceUtils";
 
 export function ProductCard({
   product,
@@ -23,9 +24,7 @@ export function ProductCard({
         <h3 className="text-md font-semibold max-w-xs truncate">
           {product.name}
         </h3>
-        <p className="text-sm text-gray-500">
-          ${(product.price / 100).toFixed(2)}
-        </p>
+        <p className="text-sm text-gray-500">{getFormattedPrice(product)}</p>
       </div>
     </Link>
   );

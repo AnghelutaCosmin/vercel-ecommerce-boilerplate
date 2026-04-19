@@ -1,5 +1,6 @@
 import { PurchaseOptions } from "@/components/pdp/PurchaseOptions";
 import { getProductBySlug } from "@/lib/productsService";
+import { getFormattedPrice } from "@/utils/priceUtils";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
@@ -29,9 +30,7 @@ export default async function ProductPage({
         />
         <div className="flex flex-col w-full p-4">
           <h1 className="text-2xl font-bold">{product.name}</h1>
-          <p className="text-lg font-semibold">
-            ${(product.price / 100).toFixed(2)}
-          </p>
+          <p className="text-lg font-semibold">{getFormattedPrice(product)}</p>
           <p className="text-gray-600">{product.description}</p>
           <Suspense
             fallback={
