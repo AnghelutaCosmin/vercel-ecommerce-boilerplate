@@ -8,17 +8,29 @@ export async function ProductCartLine({ item }: { item: CartItem }) {
   const stockInfo = await getStockInfo(item.product.slug);
 
   return (
-    <div key={item.productId} className="flex flex-row gap-2 w-full">
-      <Image
-        width={100}
-        height={100}
-        src={item.product.images[0]}
-        alt={item.product.name}
-      />
-      <div className="flex flex-col w-full">
-        <h3>{item.product.name}</h3>
-        <p>{getFormattedPrice(item.product)}</p>
-        <CartLineControls item={item} stockInfo={stockInfo} />
+    <div className="flex gap-4 py-5">
+      <div className="relative h-20 w-20 shrink-0 rounded-lg overflow-hidden bg-secondary">
+        <Image
+          fill
+          src={item.product.images[0]}
+          alt={item.product.name}
+          className="object-cover"
+          sizes="80px"
+        />
+      </div>
+      <div className="flex flex-1 flex-col justify-between min-w-0">
+        <div className="flex justify-between gap-2">
+          <h3 className="text-sm font-semibold truncate">{item.product.name}</h3>
+          <span className="text-sm font-semibold shrink-0">
+            {(item.lineTotal / 100).toFixed(2)} {item.product.currency}
+          </span>
+        </div>
+        <p className="text-xs text-muted-foreground mt-0.5">
+          {getFormattedPrice(item.product)} each
+        </p>
+        <div className="mt-2">
+          <CartLineControls item={item} stockInfo={stockInfo} />
+        </div>
       </div>
     </div>
   );

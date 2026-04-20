@@ -11,20 +11,25 @@ export function ProductCard({
   eager?: boolean;
 }) {
   return (
-    <Link href={`/products/${product.slug}`} className="overflow-hidden">
-      <Image
-        src={product.images[0]} // Assuming the first image is the main one
-        alt={product.name}
-        width={300}
-        height={200}
-        loading={eager ? "eager" : "lazy"}
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-      />
+    <Link
+      href={`/products/${product.slug}`}
+      className="group rounded-xl border border-border bg-card overflow-hidden hover:shadow-md transition-all duration-300 hover:-translate-y-0.5"
+    >
+      <div className="relative aspect-square overflow-hidden bg-secondary">
+        <Image
+          src={product.images[0]}
+          alt={product.name}
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          loading={eager ? "eager" : "lazy"}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
+      </div>
       <div className="p-4">
-        <h3 className="text-md font-semibold max-w-xs truncate">
-          {product.name}
-        </h3>
-        <p className="text-sm text-gray-500">{getFormattedPrice(product)}</p>
+        <h3 className="text-sm font-semibold truncate">{product.name}</h3>
+        <p className="text-sm text-muted-foreground mt-0.5">
+          {getFormattedPrice(product)}
+        </p>
       </div>
     </Link>
   );

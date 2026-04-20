@@ -11,16 +11,13 @@ export interface NavLinksProps {
 
 export function NavLinks({ links }: NavLinksProps) {
   return (
-    <nav
-      className="ml-6 flex items-center gap-6"
-      aria-label="Primary navigation"
-    >
+    <nav className="flex items-center gap-1" aria-label="Primary navigation">
       {links.map((link) => (
         <Link
           key={link.name}
           href={link.href}
           aria-label={link.name}
-          className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+          className="px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary rounded-md transition-colors duration-150"
         >
           {link.name}
         </Link>

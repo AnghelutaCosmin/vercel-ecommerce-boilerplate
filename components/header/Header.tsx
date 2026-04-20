@@ -10,21 +10,19 @@ const routes = [
 
 export function Header() {
   return (
-    <header className="w-full h-16 flex items-center justify-between px-8 bg-white dark:bg-black border-b border-gray-200 dark:border-gray-700">
-      <div className="flex items-center gap-4">
+    <header className="sticky top-0 z-50 w-full h-16 flex items-center justify-between px-6 md:px-10 bg-background/80 backdrop-blur-md border-b border-border">
+      <div className="flex items-center gap-8">
         <Link
           href="/"
           aria-label="NextEcom Home"
-          className="flex items-center gap-2"
+          className="flex items-center gap-2.5 shrink-0"
         >
           <Logo />
-          <h1 className="text-xl font-bold text-gray-900 dark:text-white font-lusitana">
+          <span className="text-lg font-bold tracking-tight font-lusitana">
             NextEcom
-          </h1>
+          </span>
         </Link>
-        <div className="ml-6 flex items-center gap-6">
-          <NavLinks links={routes} />
-        </div>
+        <NavLinks links={routes} />
       </div>
       <CartLink />
     </header>

@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/Badge";
 import { StockInfo } from "@/types/productTypes";
 
 export function StockAvailability({
@@ -10,18 +11,16 @@ export function StockAvailability({
   const isAvailable = stockInfo?.inStock && !stockInfo.lowStock;
 
   return (
-    <p className="mt-4">
+    <div className="mt-4">
       {isOutOfStock && (
-        <span className="text-red-500 font-semibold">Out of Stock</span>
+        <Badge variant="destructive">Out of stock</Badge>
       )}
       {isLowStock && (
-        <span className="text-yellow-500 font-semibold">
-          Only {stockInfo?.stock} left!
-        </span>
+        <Badge variant="warning">Only {stockInfo?.stock} left</Badge>
       )}
       {isAvailable && (
-        <span className="text-green-500 font-semibold">Available</span>
+        <Badge variant="success">In stock</Badge>
       )}
-    </p>
+    </div>
   );
 }

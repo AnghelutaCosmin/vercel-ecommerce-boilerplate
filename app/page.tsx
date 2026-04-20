@@ -6,11 +6,9 @@ export default function Home() {
   return (
     <div className="w-full">
       <PromoBanner />
-      <div className="flex flex-1 w-full flex-col items-center justify-between px-16 bg-white dark:bg-black sm:items-start">
-        <div className="flex flex-col flex-1 items-start justify-start font-sans w-full">
-          <Hero />
-          <FeaturedProducts />
-        </div>
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10">
+        <Hero />
+        <FeaturedProducts />
       </div>
     </div>
   );

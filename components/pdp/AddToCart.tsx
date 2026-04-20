@@ -8,7 +8,9 @@ const SUCCESS_DURATION = 2000;
 
 export function AddToCart({ stockInfo }: { stockInfo: StockInfo }) {
   const [quantity, setQuantity] = useState(1);
-  const [dismissedAt, setDismissedAt] = useState<number | undefined>(undefined);
+  const [dismissedAt, setDismissedAt] = useState<number | undefined>(
+    undefined
+  );
 
   const [state, formAction, pending] = useActionState<
     CartActionResult,
@@ -18,7 +20,7 @@ export function AddToCart({ stockInfo }: { stockInfo: StockInfo }) {
   });
 
   const handleQuantityChange = (delta: number) => {
-    if (delta > 0 && quantity >= stockInfo.stock) return; // Prevent increasing beyond stock
+    if (delta > 0 && quantity >= stockInfo.stock) return;
     setQuantity((prev) => Math.max(1, prev + delta));
   };
 
@@ -26,9 +28,10 @@ export function AddToCart({ stockInfo }: { stockInfo: StockInfo }) {
     if (state.success !== true || !state.submittedAt) return;
     if (dismissedAt === state.submittedAt) return;
 
-    const delay = 2000;
-
-    const timer = setTimeout(() => setDismissedAt(state.submittedAt), delay);
+    const timer = setTimeout(
+      () => setDismissedAt(state.submittedAt),
+      SUCCESS_DURATION
+    );
     return () => clearTimeout(timer);
   }, [state.submittedAt, state.success, dismissedAt]);
 
@@ -38,28 +41,30 @@ export function AddToCart({ stockInfo }: { stockInfo: StockInfo }) {
     dismissedAt !== state.submittedAt;
 
   return (
-    <div className="flex flex-1 w-full flex-col">
-      <div className="mt-4 flex items-center gap-4">
+    <div className="flex flex-col gap-3 mt-6">
+      <div className="flex items-center gap-3">
         <QuantitySelector
           quantity={quantity}
           maxStock={stockInfo.stock}
           changeQuantity={handleQuantityChange}
         />
-        <form className="w-full" action={formAction}>
+        <form className="flex-1" action={formAction}>
           <input name="productId" type="hidden" value={stockInfo.productId} />
           <input name="quantity" type="hidden" value={quantity} />
           <button
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 cursor-pointer"
+            className="w-full h-10 px-6 rounded-lg bg-foreground text-background text-sm font-semibold hover:bg-foreground/90 transition-colors duration-200 disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
             disabled={!stockInfo.inStock || pending}
             type="submit"
           >
-            Add to Cart
+            {pending ? "Adding…" : "Add to cart"}
           </button>
         </form>
       </div>
       {showSuccess && (
-        <div className="bg-green-500 p-1 px-4">
-          <span className="text-white">{state.message}</span>
+        <div className="flex items-center gap-2 rounded-lg border border-green-200 bg-green-50 px-4 py-2.5 dark:border-green-800 dark:bg-green-900/20">
+          <span className="text-sm font-medium text-green-700 dark:text-green-400">
+            {state.message}
+          </span>
         </div>
       )}
     </div>

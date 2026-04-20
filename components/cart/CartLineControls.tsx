@@ -16,42 +16,47 @@ export async function CartLineControls({
   const decrement = updateCartItemQuantityAction.bind(
     null,
     item.productId,
-    item.quantity - 1,
+    item.quantity - 1
   );
   const increment = updateCartItemQuantityAction.bind(
     null,
     item.productId,
-    item.quantity + 1,
+    item.quantity + 1
   );
   const remove = removeItemFromCartAction.bind(null, item.productId);
 
   return (
     <form>
-      <div className="flex flex-row align-center justify-center gap-2">
-        <div className="flex flex-row gap-2">
+      <div className="flex items-center gap-2">
+        <div className="inline-flex items-center rounded-lg border border-border bg-background">
           <button
-            className="py-1 px-2 rounded bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-50 cursor-pointer"
+            className="flex items-center justify-center h-8 w-8 text-foreground hover:bg-secondary rounded-l-lg transition-colors duration-150 disabled:opacity-30 disabled:pointer-events-none cursor-pointer font-medium text-sm"
             formAction={decrement}
             disabled={item.quantity <= 1}
+            aria-label="Decrease quantity"
           >
-            -
+            −
           </button>
-          <span className="self-center">{item.quantity}</span>
+          <span className="w-8 text-center text-sm font-semibold select-none">
+            {item.quantity}
+          </span>
           <button
-            className="py-1 px-2 rounded bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-50 cursor-pointer"
+            className="flex items-center justify-center h-8 w-8 text-foreground hover:bg-secondary rounded-r-lg transition-colors duration-150 disabled:opacity-30 disabled:pointer-events-none cursor-pointer font-medium text-sm"
             formAction={increment}
             disabled={
-              stockInfo?.stock ? item.quantity >= stockInfo?.stock : false
+              stockInfo?.stock ? item.quantity >= stockInfo.stock : false
             }
+            aria-label="Increase quantity"
           >
             +
           </button>
         </div>
         <button
-          className="py-1 px-1 rounded bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 cursor-pointer"
+          className="flex items-center justify-center h-8 w-8 rounded-lg border border-border text-muted-foreground hover:text-destructive hover:border-destructive/50 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors duration-150 cursor-pointer"
           formAction={remove}
+          aria-label="Remove item"
         >
-          <TrashIcon color="white" />
+          <TrashIcon size={15} />
         </button>
       </div>
     </form>

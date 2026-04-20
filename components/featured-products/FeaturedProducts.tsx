@@ -5,21 +5,26 @@ import { FeaturedProductsContent } from "./FeaturedProductsContent";
 
 export function FeaturedProducts() {
   return (
-    <div className="w-full mt-10">
-      <div className="flex flex-row justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">Featured Products</h2>
+    <section className="w-full py-12 border-t border-border">
+      <div className="flex flex-row justify-between items-baseline mb-8">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight">Featured</h2>
+          <p className="text-sm text-muted-foreground mt-1">
+            Hand-picked products just for you
+          </p>
+        </div>
         <Link
           href="/search?featured=true"
-          className="hover:text-gray-500 cursor-pointer font-bold px-4 rounded"
+          className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-150 shrink-0"
         >
-          View all
+          View all →
         </Link>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
         <Suspense fallback={<FeaturedProductsSkeleton count={6} />}>
           <FeaturedProductsContent />
         </Suspense>
       </div>
-    </div>
+    </section>
   );
 }

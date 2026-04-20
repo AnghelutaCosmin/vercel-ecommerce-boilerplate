@@ -3,9 +3,11 @@ import { ProductCartLine } from "../product-cart-line/ProductCartLine";
 
 export async function CartItemList({ cart }: { cart: Cart }) {
   return (
-    <section className="flex flex-col flex-1 w-full">
-      <h2>Item List</h2>
-      <div className="flex flex-1 flex-col w-full">
+    <section className="flex-1 min-w-0">
+      <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-widest mb-4">
+        Items ({cart.totalItems})
+      </h2>
+      <div className="flex flex-col divide-y divide-border">
         {cart?.items.map((cartItem) => (
           <ProductCartLine key={cartItem.productId} item={cartItem} />
         ))}

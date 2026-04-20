@@ -6,11 +6,14 @@ export async function CartItemCount() {
   const token = await getCartToken();
   if (token) {
     const cart = await getCart(token);
-    totalItems = cart?.totalItems || 0; //If null, no cart created yet
+    totalItems = cart?.totalItems || 0;
   }
+
+  if (totalItems === 0) return null;
+
   return (
-    <div className="absolute top-0 right-0 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-      {totalItems}
-    </div>
+    <span className="absolute -top-1 -right-1 bg-foreground text-background text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
+      {totalItems > 9 ? "9+" : totalItems}
+    </span>
   );
 }

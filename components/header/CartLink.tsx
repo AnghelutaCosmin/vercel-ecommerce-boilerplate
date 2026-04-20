@@ -7,12 +7,13 @@ export function CartLink() {
   return (
     <Link
       href="/cart"
-      className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+      aria-label="Shopping cart"
+      className="relative flex items-center justify-center h-9 w-9 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors duration-150"
     >
-      <CartIcon />
+      <CartIcon size={20} />
       <Suspense
         fallback={
-          <div className="absolute top-0 right-0 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-pulse" />
+          <span className="absolute -top-1 -right-1 bg-foreground text-background text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center animate-pulse" />
         }
       >
         <CartItemCount />
