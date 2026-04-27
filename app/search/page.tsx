@@ -1,8 +1,36 @@
-export default function SearchPage() {
+import { SearchResultsPanel } from "@/components/search/SearchResultsPanel";
+import { SearchResultsSkeleton } from "@/components/search/SearchResultsSkeleton";
+import { Suspense } from "react";
+
+export default async function SearchPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{
+    category: string | string[];
+    featured: string | string[];
+    query: string | string[];
+  }>;
+}) {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center font-sans">
-      <h1 className="text-5xl font-bold mb-4">Search Page</h1>
-      <p className="text-lg text-gray-400">This is the search page.</p>
+    <div className="w-full">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-10 sm:px-6 lg:px-10">
+        <section className="space-y-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+            Search
+          </p>
+          <div className="space-y-3">
+            <h1 className="max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl">
+              Find the right product for you.
+            </h1>
+          </div>
+        </section>
+
+        {/*MISSING FILTERS*/}
+
+        <Suspense fallback={<SearchResultsSkeleton />}>
+          <SearchResultsPanel searchParams={searchParams} />
+        </Suspense>
+      </div>
     </div>
   );
 }
