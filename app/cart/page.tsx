@@ -2,7 +2,13 @@ import { CartItemList } from "@/components/cart/CartItemList";
 import { CartSummary } from "@/components/cart/CartSummary";
 import { getCart } from "@/lib/cartService";
 import { getCartToken } from "@/utils/cartUtils";
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Cart",
+  description: "View and manage your shopping cart items.",
+};
 
 export default async function CartPage() {
   const token = await getCartToken();

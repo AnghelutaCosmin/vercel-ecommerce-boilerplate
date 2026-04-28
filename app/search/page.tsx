@@ -6,7 +6,7 @@ import { Metadata } from "next";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
-  title: "Search | NextEcom",
+  title: "Search",
   description: "Search the Vercel Swag Store catalog by keyword and category.",
 };
 

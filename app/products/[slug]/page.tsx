@@ -1,9 +1,31 @@
 import { PurchaseOptions } from "@/components/pdp/PurchaseOptions";
 import { getProductBySlug } from "@/lib/productsService";
 import { getFormattedPrice } from "@/utils/priceUtils";
+import { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await getProductBySlug(slug);
+
+  if (!product) {
+    return {
+      title: "Product Not Found",
+      description: "The product you are looking for does not exist.",
+    };
+  }
+
+  return {
+    title: `${product.name}`,
+    description: `Buy ${product.name} for ${getFormattedPrice(product)}. ${product.description}`,
+  };
+}
 
 export default async function ProductPage({
   params,

@@ -21,7 +21,17 @@ const lusitana = Lusitana({
 });
 
 export const metadata: Metadata = {
-  title: "NextEcom - Ecommerce Starter",
+  metadataBase: new URL("https://next-ecom.vercel.app"), //TO UPDATE
+  title: {
+    default: "NextEcom",
+    template: "%s - NextEcom",
+  },
+  openGraph: {
+    siteName: "NextEcom",
+    type: "website",
+    description:
+      "A Next.js ecommerce boilerplate with Vercel Commerce, Tailwind CSS, and TypeScript.",
+  },
   description:
     "A Next.js ecommerce boilerplate with Vercel Commerce, Tailwind CSS, and TypeScript.",
 };

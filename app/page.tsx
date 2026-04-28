@@ -1,6 +1,12 @@
 import { PromoBanner } from "@/components/promo-banner/PromoBanner";
 import { Hero } from "@/components/hero/Hero";
 import { FeaturedProducts } from "@/components/featured-products/FeaturedProducts";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  description:
+    "Welcome to the NextEcom homepage! Discover our featured products and latest promotions in our Vercel E-commerce Boilerplate.",
+};
 
 export default function Home() {
   return (
