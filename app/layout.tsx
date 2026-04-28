@@ -21,7 +21,9 @@ const lusitana = Lusitana({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://next-ecom.vercel.app"), //TO UPDATE
+  metadataBase: new URL(
+    `https://${process.env.VERCEL_ECOMMERCE_DOMAIN || "next-ecom.vercel.app"}`,
+  ),
   title: {
     default: "NextEcom",
     template: "%s - NextEcom",
