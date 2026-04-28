@@ -1,5 +1,5 @@
 import { PurchaseOptions } from "@/components/pdp/PurchaseOptions";
-import { getProductBySlug } from "@/lib/productsService";
+import { getFeaturedProducts, getProductBySlug } from "@/lib/productsService";
 import { getFormattedPrice } from "@/utils/priceUtils";
 import { Metadata } from "next";
 import Image from "next/image";
@@ -25,6 +25,13 @@ export async function generateMetadata({
     title: `${product.name}`,
     description: `Buy ${product.name} for ${getFormattedPrice(product)}. ${product.description}`,
   };
+}
+
+export async function generateStaticParams() {
+  const products = await getFeaturedProducts();
+  return products.map((product) => ({
+    slug: product.slug,
+  }));
 }
 
 export default async function ProductPage({

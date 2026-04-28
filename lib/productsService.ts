@@ -76,17 +76,11 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
 }
 
 export async function getStockInfo(slug: string): Promise<StockInfo | null> {
-  try {
-    const response = await fetchWithAuth(endpoints.productStockBySlug(slug));
-    if (!response.success) {
-      return null;
-    }
-    return response.data;
-  } catch (error) {
-    console.error(
-      `Error fetching stock info for product with slug "${slug}":`,
-      error,
-    );
+  const response = await fetchWithAuth(endpoints.productStockBySlug(slug), {
+    cache: "no-store",
+  });
+  if (!response.success) {
     return null;
   }
+  return response.data;
 }
