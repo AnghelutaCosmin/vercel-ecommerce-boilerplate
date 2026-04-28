@@ -1,6 +1,14 @@
+import { SearchFiltersPanel } from "@/components/search/SearchFiltersPanel";
+import { SearchFiltersSkeleton } from "@/components/search/SearchFiltersSkeleton";
 import { SearchResultsPanel } from "@/components/search/SearchResultsPanel";
 import { SearchResultsSkeleton } from "@/components/search/SearchResultsSkeleton";
+import { Metadata } from "next";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "Search | NextEcom",
+  description: "Search the Vercel Swag Store catalog by keyword and category.",
+};
 
 export default async function SearchPage({
   searchParams,
@@ -25,7 +33,9 @@ export default async function SearchPage({
           </div>
         </section>
 
-        {/*MISSING FILTERS*/}
+        <Suspense fallback={<SearchFiltersSkeleton />}>
+          <SearchFiltersPanel searchParams={searchParams} />
+        </Suspense>
 
         <Suspense fallback={<SearchResultsSkeleton />}>
           <SearchResultsPanel searchParams={searchParams} />

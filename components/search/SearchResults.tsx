@@ -24,7 +24,7 @@ function getResultsSummary({
     return "Showing featured products.";
   }
 
-  return "Browse a default set of products to get started.";
+  return "Get started with these products.";
 }
 
 export async function SearchResults(searchState: SearchPageState) {
