@@ -8,6 +8,10 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Cart",
   description: "View and manage your shopping cart items.",
+  openGraph: {
+    title: "Your Cart - NextEcom",
+    description: "View and manage your shopping cart items on NextEcom.",
+  },
 };
 
 export default async function CartPage() {

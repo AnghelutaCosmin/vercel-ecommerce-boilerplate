@@ -8,6 +8,11 @@ import { Suspense } from "react";
 export const metadata: Metadata = {
   title: "Search",
   description: "Search the Vercel Swag Store catalog by keyword and category.",
+  openGraph: {
+    title: "Search - NextEcom",
+    description:
+      "Search the Vercel Swag Store catalog by keyword and category on NextEcom.",
+  },
 };
 
 export default async function SearchPage({

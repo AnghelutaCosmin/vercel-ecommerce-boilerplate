@@ -31,8 +31,6 @@ export const metadata: Metadata = {
   openGraph: {
     siteName: "NextEcom",
     type: "website",
-    description:
-      "A Next.js ecommerce boilerplate with Vercel Commerce, Tailwind CSS, and TypeScript.",
   },
   description:
     "A Next.js ecommerce boilerplate with Vercel Commerce, Tailwind CSS, and TypeScript.",

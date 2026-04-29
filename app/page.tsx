@@ -6,6 +6,11 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   description:
     "Welcome to the NextEcom homepage! Discover our featured products and latest promotions in our Vercel E-commerce Boilerplate.",
+  openGraph: {
+    title: "NextEcom - Home",
+    description:
+      "Welcome to the NextEcom homepage! Discover our featured products and latest promotions in our Vercel E-commerce Boilerplate.",
+  },
 };
 
 export default function Home() {

@@ -24,6 +24,12 @@ export async function generateMetadata({
   return {
     title: `${product.name}`,
     description: `Buy ${product.name} for ${getFormattedPrice(product)}. ${product.description}`,
+    openGraph: {
+      title: `${product.name}`,
+      description: `Buy ${product.name} for ${getFormattedPrice(product)}. ${product.description}`,
+      url: `/products/${product.slug}`,
+      images: product.images?.[0],
+    },
   };
 }
 
