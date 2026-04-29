@@ -1,5 +1,15 @@
 export const BASE_URL = "https://vercel-swag-store-api.vercel.app/api";
 
+export class ApiError extends Error {
+  constructor(
+    message: string,
+    public readonly status: number,
+  ) {
+    super(message);
+    this.name = "ApiError";
+  }
+}
+
 export const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
   const headers = {
     ...options.headers,
@@ -12,7 +22,10 @@ export const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
   });
 
   if (!response.ok) {
-    throw new Error(`API request failed with status ${response.status}`);
+    throw new ApiError(
+      `API request failed with status ${response.status}`,
+      response.status,
+    );
   }
 
   return response.json();

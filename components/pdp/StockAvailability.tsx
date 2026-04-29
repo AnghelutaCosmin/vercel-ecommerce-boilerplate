@@ -12,15 +12,14 @@ export function StockAvailability({
 
   return (
     <div className="mt-4">
-      {isOutOfStock && (
-        <Badge variant="destructive">Out of stock</Badge>
+      {!stockInfo && (
+        <Badge variant="default">Stock information unavailable</Badge>
       )}
+      {isOutOfStock && <Badge variant="destructive">Out of stock</Badge>}
       {isLowStock && (
         <Badge variant="warning">Only {stockInfo?.stock} left</Badge>
       )}
-      {isAvailable && (
-        <Badge variant="success">In stock</Badge>
-      )}
+      {isAvailable && <Badge variant="success">In stock</Badge>}
     </div>
   );
 }

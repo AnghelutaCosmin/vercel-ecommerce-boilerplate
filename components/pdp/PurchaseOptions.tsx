@@ -8,7 +8,7 @@ export async function PurchaseOptions({ slug }: { slug: string }) {
   return (
     <>
       <StockAvailability stockInfo={stockInfo} />
-      {stockInfo && <AddToCart stockInfo={stockInfo} />}
+      {stockInfo && <AddToCart stockInfo={stockInfo} slug={slug} />}
     </>
   );
 }

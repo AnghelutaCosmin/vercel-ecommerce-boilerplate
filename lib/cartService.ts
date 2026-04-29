@@ -1,6 +1,6 @@
 import { Cart } from "@/types/cartTypes";
 import { endpoints } from "./endpoints";
-import { fetchWithAuth } from "./fetch";
+import { ApiError, fetchWithAuth } from "./fetch";
 
 interface UpdateCartPayload {
   productId: string;
@@ -42,16 +42,24 @@ export async function addItemToCart(
 }
 
 export async function getCart(token: string): Promise<Cart | null> {
-  console.log("token", token);
-  const response = await fetchWithAuth(endpoints.getCart, {
-    method: "GET",
-    headers: { "x-cart-token": token },
-  });
-  console.log(response);
-  if (!response.success) {
-    throw new Error("Failed to retrieve cart!");
+  try {
+    const response = await fetchWithAuth(endpoints.getCart, {
+      method: "GET",
+      headers: { "x-cart-token": token },
+    });
+
+    if (!response.success) return null;
+
+    return response.data;
+  } catch (error) {
+    // A missing cart usually means the cookie token points to a deleted cart.
+    if (error instanceof ApiError && error.status === 404) {
+      return null;
+    }
+
+    console.error("Error fetching cart:", error);
+    return null;
   }
-  return response.data;
 }
 
 export async function updateCartItemQuantity(

@@ -6,11 +6,15 @@ import { QuantitySelector } from "../quantity-selector/QuantitySelector";
 
 const SUCCESS_DURATION = 2000;
 
-export function AddToCart({ stockInfo }: { stockInfo: StockInfo }) {
+export function AddToCart({
+  stockInfo,
+  slug,
+}: {
+  stockInfo: StockInfo;
+  slug: string;
+}) {
   const [quantity, setQuantity] = useState(1);
-  const [dismissedAt, setDismissedAt] = useState<number | undefined>(
-    undefined
-  );
+  const [dismissedAt, setDismissedAt] = useState<number | undefined>(undefined);
 
   const [state, formAction, pending] = useActionState<
     CartActionResult,
@@ -30,7 +34,7 @@ export function AddToCart({ stockInfo }: { stockInfo: StockInfo }) {
 
     const timer = setTimeout(
       () => setDismissedAt(state.submittedAt),
-      SUCCESS_DURATION
+      SUCCESS_DURATION,
     );
     return () => clearTimeout(timer);
   }, [state.submittedAt, state.success, dismissedAt]);
@@ -51,6 +55,7 @@ export function AddToCart({ stockInfo }: { stockInfo: StockInfo }) {
         <form className="flex-1" action={formAction}>
           <input name="productId" type="hidden" value={stockInfo.productId} />
           <input name="quantity" type="hidden" value={quantity} />
+          <input name="slug" type="hidden" value={slug} />
           <button
             className="w-full h-10 px-6 rounded-lg bg-foreground text-background text-sm font-semibold hover:bg-foreground/90 transition-colors duration-200 disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
             disabled={!stockInfo.inStock || pending}

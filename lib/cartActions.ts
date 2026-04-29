@@ -1,13 +1,19 @@
 "use server";
 
-import { getCartToken, setCartToken } from "@/utils/cartUtils";
+import {
+  clearCartToken,
+  getCartToken,
+  setCartToken,
+} from "@/utils/cartUtils";
 import {
   addItemToCart,
   createCart,
   removeItemFromCart,
   updateCartItemQuantity,
 } from "./cartService";
+import { ApiError } from "./fetch";
 import { refresh } from "next/cache";
+import { getStockInfo } from "./productsService";
 
 export interface CartActionResult {
   success: boolean | undefined;
@@ -15,14 +21,21 @@ export interface CartActionResult {
   submittedAt?: number;
 }
 
+function isMissingCartError(error: unknown): boolean {
+  return error instanceof ApiError && error.status === 404;
+}
+
+async function createAndStoreCartToken(): Promise<string> {
+  const newToken = await createCart();
+  await setCartToken(newToken);
+  return newToken;
+}
+
 export async function getOrCreateToken(): Promise<string> {
   const token = await getCartToken();
-  if (!token) {
-    const newToken = await createCart();
-    await setCartToken(newToken);
-    return newToken;
-  }
-  return token;
+  if (token) return token;
+
+  return createAndStoreCartToken();
 }
 
 export async function addItemToCartAction(
@@ -31,19 +44,53 @@ export async function addItemToCartAction(
 ): Promise<CartActionResult> {
   const productId = formData.get("productId")?.toString();
   const quantity = Number(formData.get("quantity"));
-  if (!productId) {
+  const slug = formData.get("slug")?.toString();
+
+  if (!productId || !slug || !quantity || quantity < 1) {
     return {
       success: false,
-      message: "Failed to add item to the cart.",
+      message: "Invalid quantity.",
       submittedAt: Date.now(),
     };
   }
+
   try {
-    const token = await getOrCreateToken();
-    await addItemToCart(token, {
+    // Check on stock availability ad the moment of adding to the cart
+    const stockInfo = await getStockInfo(slug);
+    if (!stockInfo || !stockInfo.inStock) {
+      return {
+        success: false,
+        message: "This item is currently unavailable.",
+        submittedAt: Date.now(),
+      };
+    }
+
+    if (quantity > stockInfo.stock) {
+      return {
+        success: false,
+        message: `Only ${stockInfo.stock} left in stock.`,
+        submittedAt: Date.now(),
+      };
+    }
+
+    const payload = {
       productId: productId,
-      quantity: quantity || 1,
-    });
+      quantity: quantity,
+    };
+
+    const token = await getOrCreateToken();
+
+    try {
+      await addItemToCart(token, payload);
+    } catch (error) {
+      if (!isMissingCartError(error)) {
+        throw error;
+      }
+
+      const freshToken = await createAndStoreCartToken();
+      await addItemToCart(freshToken, payload);
+    }
+
     refresh();
     return {
       success: true,
@@ -72,6 +119,12 @@ export async function removeItemFromCartAction(
     refresh();
     return;
   } catch (error) {
+    if (isMissingCartError(error)) {
+      await clearCartToken();
+      refresh();
+      return;
+    }
+
     console.log(error);
     return;
   }
@@ -79,9 +132,10 @@ export async function removeItemFromCartAction(
 
 export async function updateCartItemQuantityAction(
   productId: string,
+  slug: string,
   quantity: number,
 ): Promise<void> {
-  if (!productId) {
+  if (!productId || !slug || quantity < 0) {
     return;
   }
 
@@ -90,11 +144,22 @@ export async function updateCartItemQuantityAction(
       await removeItemFromCartAction(productId);
       return;
     }
+    const stockInfo = await getStockInfo(slug);
+    if (!stockInfo || !stockInfo.inStock || quantity > stockInfo.stock) {
+      return;
+    }
+
     const token = await getOrCreateToken();
     await updateCartItemQuantity(token, { productId, quantity });
     refresh();
     return;
   } catch (error) {
+    if (isMissingCartError(error)) {
+      await clearCartToken();
+      refresh();
+      return;
+    }
+
     console.log(error);
     return;
   }

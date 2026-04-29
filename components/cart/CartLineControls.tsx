@@ -16,12 +16,14 @@ export async function CartLineControls({
   const decrement = updateCartItemQuantityAction.bind(
     null,
     item.productId,
-    item.quantity - 1
+    item.product.slug,
+    item.quantity - 1,
   );
   const increment = updateCartItemQuantityAction.bind(
     null,
     item.productId,
-    item.quantity + 1
+    item.product.slug,
+    item.quantity + 1,
   );
   const remove = removeItemFromCartAction.bind(null, item.productId);
 
@@ -44,7 +46,9 @@ export async function CartLineControls({
             className="flex items-center justify-center h-8 w-8 text-foreground hover:bg-secondary rounded-r-lg transition-colors duration-150 disabled:opacity-30 disabled:pointer-events-none cursor-pointer font-medium text-sm"
             formAction={increment}
             disabled={
-              stockInfo?.stock ? item.quantity >= stockInfo.stock : false
+              !stockInfo ||
+              !stockInfo.inStock ||
+              item.quantity >= stockInfo.stock
             }
             aria-label="Increase quantity"
           >
